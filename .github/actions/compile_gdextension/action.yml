@@ -61,17 +61,20 @@ runs:
         restore-keys: |
           ${{github.job}}-${{inputs.artifact}}-${{steps.get_godot_cpp_sha.outputs.sha}}-${{github.ref}}
           ${{github.job}}-${{inputs.artifact}}-${{steps.get_godot_cpp_sha.outputs.sha}}
-
-    - name: Set up Python 3.x
-      uses: actions/setup-python@v5
-      if: ${{ (runner.arch == 'ARM64') && (runner.os == 'Linux') }}
-      with:
-        python-version: "3.x"
-        architecture: "arm64"
+    
+    - name: Set up Python 3.x for X64
       if: ${{ runner.arch == 'X64' }}
+      uses: actions/setup-python@v5
       with:
         python-version: "3.x"
         architecture: "X64"
+        
+    - name: Set up Python 3.x for ARM64
+      if: ${{ (runner.arch == 'ARM64') && (runner.os == 'Linux') }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+        architecture: "arm64"
 
     - name: Configuring Python packages
       shell: bash
