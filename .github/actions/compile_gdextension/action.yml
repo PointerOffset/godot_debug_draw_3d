@@ -64,9 +64,14 @@ runs:
 
     - name: Set up Python 3.x
       uses: actions/setup-python@v5
+      if: ${{ (runner.arch == 'ARM64') && (runner.os == 'Linux') }}
       with:
         python-version: "3.x"
-        architecture: ${{ [(inputs.arch == 'arm64') && (inputs.platform == 'linux')] && "arm64" || "x64" }}
+        architecture: "arm64"
+      if: ${{ runner.arch == 'X64' }}
+      with:
+        python-version: "3.x"
+        architecture: "X64"
 
     - name: Configuring Python packages
       shell: bash
