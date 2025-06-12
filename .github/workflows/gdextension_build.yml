@@ -94,7 +94,41 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [x86_64,arm64]
+        arch: [x86_64]
+        target: [editor, template_release]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Compile GDExtension
+        uses: ./.github/actions/compile_gdextension
+        with:
+          platform: linux
+          target: ${{matrix.target}}
+          arch: ${{matrix.arch}}
+          artifact: libdd3d-linux.${{matrix.target}}.${{matrix.arch}}
+          additional: lto=full
+          output_libs_path: ${{env.OUTPUT_LIBS_PATH}}
+          use_cache: ${{env.USE_CACHE}}
+
+  # ============================================
+
+  linux-arm64-gdextension:
+    name: 🐧 Linux ARM64
+    runs-on: ubuntu-22.04-arm
+    environment: ${{inputs.production_build == true && 'production' || ''}}
+    env:
+      TELEMETRY_DD3D_APP_ID: ${{secrets.TELEMETRY_DD3D_APP_ID}}
+      TELEMETRY_DD3D_HOST: ${{secrets.TELEMETRY_DD3D_HOST}}
+      TELEMETRY_DST_FILE_KEY: ${{secrets.TELEMETRY_DST_FILE_KEY}}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [arm64]
         target: [editor, template_release]
 
     steps:
