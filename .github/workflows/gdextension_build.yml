@@ -478,10 +478,12 @@ jobs:
       fail-fast: false
       matrix:
         # sync with other jobs
-        runner-os: [ubuntu-22.04, macos-latest, windows-latest]
+        runner-os: [ubuntu-22.04, ubuntu-22.04-arm, macos-latest, windows-latest]
         include:
           - runner-os: ubuntu-22.04
             file_suffix: "stable_linux.x86_64.zip"
+          - runner-os: ubuntu-22.04-arm
+            file_suffix: "stable_linux.arm64.zip"
           - runner-os: macos-latest
             file_suffix: "stable_macos.universal.zip"
           - runner-os: windows-latest
