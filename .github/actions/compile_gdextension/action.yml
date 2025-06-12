@@ -67,7 +67,7 @@ runs:
       uses: actions/setup-python@v5
       with:
         python-version: "3.x"
-        architecture: "X64"
+        architecture: "x64"
         
     - name: Set up Python 3.x for ARM64
       if: ${{ (runner.arch == 'ARM64') && (runner.os == 'Linux') }}
